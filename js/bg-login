@@ -1,0 +1,194 @@
+const canvas = document.getElementById('waves');
+const ctx = canvas.getContext('2d');
+let w, h, time = 0;
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+  w = canvas.width = window.innerWidth * dpr;
+  h = canvas.height = window.innerHeight * dpr;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+const blobs = [
+  {
+    fill: (ctx, t) => {
+      const g = ctx.createLinearGradient(0, h * 0.2, w, h * 0.8);
+      g.addColorStop(0, 'rgba(6, 80, 50, 0.95)');
+      g.addColorStop(1, 'rgba(12, 55, 35, 0.95)');
+      return g;
+    },
+    points: 8,
+    radiusX: () => w * 0.7,
+    radiusY: () => h * 0.55,
+    cx: () => w * 0.15,
+    cy: () => h * 0.75,
+    speed: 0.3,
+    wobble: 0.35,
+    phase: 0,
+  },
+  {
+    fill: (ctx, t) => {
+      const g = ctx.createRadialGradient(w * 0.6, h * 0.3, 0, w * 0.5, h * 0.5, w * 0.6);
+      g.addColorStop(0, 'rgba(120, 220, 80, 0.85)');
+      g.addColorStop(0.5, 'rgba(60, 180, 70, 0.75)');
+      g.addColorStop(1, 'rgba(20, 120, 55, 0.7)');
+      return g;
+    },
+    points: 7,
+    radiusX: () => w * 0.6,
+    radiusY: () => h * 0.5,
+    cx: () => w * 0.55,
+    cy: () => h * 0.35,
+    speed: 0.25,
+    wobble: 0.4,
+    phase: 1.8,
+  },
+  {
+    fill: (ctx, t) => {
+      const g = ctx.createLinearGradient(w * 0.3, 0, w * 0.8, h);
+      g.addColorStop(0, 'rgba(180, 240, 100, 0.7)');
+      g.addColorStop(0.5, 'rgba(100, 210, 70, 0.6)');
+      g.addColorStop(1, 'rgba(40, 160, 60, 0.5)');
+      return g;
+    },
+    points: 6,
+    radiusX: () => w * 0.55,
+    radiusY: () => h * 0.45,
+    cx: () => w * 0.7,
+    cy: () => h * 0.25,
+    speed: 0.35,
+    wobble: 0.45,
+    phase: 3.5,
+  },
+  {
+    fill: (ctx, t) => {
+      const cx = w * (0.4 + 0.1 * Math.sin(t * 0.15));
+      const cy = h * 0.45;
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.5);
+      g.addColorStop(0, 'rgba(200, 245, 120, 0.6)');
+      g.addColorStop(0.6, 'rgba(130, 220, 80, 0.4)');
+      g.addColorStop(1, 'rgba(50, 170, 60, 0.2)');
+      return g;
+    },
+    points: 8,
+    radiusX: () => w * 0.5,
+    radiusY: () => h * 0.4,
+    cx: () => w * 0.4,
+    cy: () => h * 0.5,
+    speed: 0.2,
+    wobble: 0.5,
+    phase: 5.2,
+  },
+  {
+    fill: (ctx, t) => {
+      const g = ctx.createLinearGradient(0, h * 0.6, w, h * 0.2);
+      g.addColorStop(0, 'rgba(15, 100, 55, 0.8)');
+      g.addColorStop(1, 'rgba(30, 140, 65, 0.6)');
+      return g;
+    },
+    points: 7,
+    radiusX: () => w * 0.65,
+    radiusY: () => h * 0.5,
+    cx: () => w * 0.85,
+    cy: () => h * 0.7,
+    speed: 0.28,
+    wobble: 0.38,
+    phase: 7.0,
+  },
+];
+
+function drawBlob(blob, t) {
+  const n = blob.points;
+  const cx = blob.cx();
+  const cy = blob.cy();
+  const rx = blob.radiusX();
+  const ry = blob.radiusY();
+  const wobble = blob.wobble;
+  const speed = blob.speed;
+  const phase = blob.phase;
+
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2;
+    const wobbleR = 1 + wobble * (
+      Math.sin(angle * 2.3 + t * speed + phase) * 0.5 +
+      Math.sin(angle * 3.7 + t * speed * 1.4 + phase + 2) * 0.3 +
+      Math.cos(angle * 1.1 + t * speed * 0.6 + phase + 4) * 0.2
+    );
+    const driftX = Math.sin(t * speed * 0.3 + phase) * w * 0.04;
+    const driftY = Math.cos(t * speed * 0.25 + phase + 1) * h * 0.04;
+    
+    pts.push({
+      x: (cx + driftX) + Math.cos(angle) * rx * wobbleR,
+      y: (cy + driftY) + Math.sin(angle) * ry * wobbleR,
+    });
+  }
+
+  ctx.beginPath();
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[(i - 1 + n) % n];
+    const p1 = pts[i];
+    const p2 = pts[(i + 1) % n];
+    const p3 = pts[(i + 2) % n];
+
+    const tension = 0.35;
+    if (i === 0) ctx.moveTo(p1.x, p1.y);
+
+    const cp1x = p1.x + (p2.x - p0.x) * tension;
+    const cp1y = p1.y + (p2.y - p0.y) * tension;
+    const cp2x = p2.x - (p3.x - p1.x) * tension;
+    const cp2y = p2.y - (p3.y - p1.y) * tension;
+
+    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y);
+  }
+  ctx.closePath();
+
+  ctx.fillStyle = blob.fill(ctx, t);
+  ctx.fill();
+}
+
+function drawBackground(t) {
+  const a1 = t * 0.04;
+  const cx1 = w * (0.6 + 0.2 * Math.sin(a1));
+  const cy1 = h * (0.3 + 0.15 * Math.cos(a1 * 0.8));
+
+  const bg = ctx.createRadialGradient(cx1, cy1, 0, cx1, cy1, Math.max(w, h));
+  bg.addColorStop(0, '#4aad45');
+  bg.addColorStop(0.25, '#28854a');
+  bg.addColorStop(0.55, '#136840');
+  bg.addColorStop(1, '#063d25');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, w, h);
+
+  const cx2 = w * (0.35 + 0.15 * Math.cos(a1 * 0.5 + 2));
+  const cy2 = h * (0.5 + 0.12 * Math.sin(a1 * 0.6 + 1));
+  const glow = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, w * 0.55);
+  glow.addColorStop(0, 'rgba(160, 230, 80, 0.2)');
+  glow.addColorStop(1, 'rgba(160, 230, 80, 0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+}
+
+function draw() {
+  time += 0.02;
+  ctx.clearRect(0, 0, w, h);
+
+  drawBackground(time);
+
+  for (let i = 0; i < blobs.length; i++) {
+    drawBlob(blobs[i], time);
+  }
+
+  const vig = ctx.createRadialGradient(w * 0.5, h * 0.5, w * 0.15, w * 0.5, h * 0.5, Math.max(w, h) * 0.7);
+  vig.addColorStop(0, 'rgba(0,0,0,0)');
+  vig.addColorStop(1, 'rgba(4, 30, 18, 0.4)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, w, h);
+
+  requestAnimationFrame(draw);
+}
+
+draw();

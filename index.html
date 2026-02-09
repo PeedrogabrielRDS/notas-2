@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anotações | Login & Cadastro</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="shortcut icon" href="./img/sa.png" type="image/x-icon">
+</head>
+
+<body>
+    <main>
+        <canvas id="waves"></canvas>
+
+        <!-- Sign Section -->
+
+        <section class="signup-section section">
+            <div class="section-container">
+                <div>
+                    <h1 class="title">Cadastre-se</h1>
+                    <p class="text">Já tem uma conta? <span class="login-sign-togle">Faça login</span></p>
+                </div>
+                <form action="POST" class="form">
+                    <input type="text" placeholder="exemplo@gmail.com" class="input">
+                    <input type="password" placeholder="Senha" class="input">
+                    <input type="password" placeholder="Confirme a senha" class="input">
+                    <button type="submit" class="primary-button">Cadastrar</button>
+                </form>
+                <div class="divider">
+                    <span>Ou com entre como visitante</span>
+                </div>
+                <a href="./public/visitante.html" class="seccond-button">Entrar como Visitante</a>
+                <p class="footer">Acesse a sua conta <span class="login-sign-togle">aqui</span></p>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+
+        <section class="login-section section">
+            <div class="section-container">
+                <div>
+                    <h1 class="title">Login</h1>
+                    <p class="text">Não possui uma conta? <span class="login-sign-togle">Cadastre-se</span></p>
+                </div>
+                <form action="POST" class="form">
+                    <input type="text" placeholder="exemplo@gmail.com" class="input">
+                    <input type="password" placeholder="Senha" class="input">
+                    <button type="submit" class="primary-button">Login</button>
+                </form>
+                <div class="divider">
+                    <span>Ou com entre como visitante</span>
+                </div>
+                <a href="./public/visitante.html" class="seccond-button">Entrar como Visitante</a>
+                <p class="footer">Cadastre-se <span class="login-sign-togle">aqui</span></p>
+            </div>
+        </section>
+        <script src="./js/bg-login"></script>
+        <script src="./js/login.js"></script>
+    </main>
+</body>
+
+</html>

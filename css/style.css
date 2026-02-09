@@ -1,0 +1,240 @@
+    * {
+        text-decoration: none;
+    }
+
+    html, body {
+        min-height: 100dvh;
+        overflow-x: hidden;
+    }
+
+    main {
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+    }
+
+    .section {
+        max-width: 600px;
+        min-height: 100dvh;
+        width: 100%;
+    }
+
+    .section-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px 60px;
+        background-color: #fff;
+        gap: 50px;
+        box-sizing: border-box;
+    }
+
+    .title {
+        font-family: "Times New Roman", Times, Baskerville, Georgia, serif;
+        font-size: 3.5em;
+        font-weight: normal;
+        margin-bottom: 20px;
+    }
+
+    .login-sign-togle {
+        color: #2563eb;
+        cursor: pointer;
+    }
+
+    .form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #777;
+        width: 100%;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #000000;
+        display: block;
+    }
+
+    .divider span {
+        padding: 0 12px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    
+    .input {
+        font-size: 1.05em;
+        text-indent: 20px;
+        border: 1px solid #00000034;
+    }
+    
+    .signup-form input:focus {
+        outline: none;
+    }
+    
+    .form button {
+        cursor: pointer;
+        background-color: #52B788;
+        color: #fff;
+        font-size: 1.2em;
+    }
+    
+    .input, .primary-button {
+        width: 100%;
+        min-height: 50px;
+        border-radius: 10px;
+    }
+
+    .primary-button {
+        border: none;
+    }
+    
+    .seccond-button {
+        width: 100%;
+        min-height: 50px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #F3F4F6;
+        border: solid 1px #0000000c;
+        color: #00000065;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    /* Signup Section */
+
+    .login-section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100vh;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .login-section.open {
+        transform: translateX(0);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    @media (max-width: 768px) {
+        .section-container {
+            width: 100%;
+            padding: 40px 20px;
+            gap: 30px;
+        }
+        
+        .title {
+            font-size: 4em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .text {
+            text-align: center;
+            font-size: 1em;
+        }
+        
+        .input {
+            min-height: 45px;
+            font-size: 1em;
+        }
+        
+        .primary-button, .seccond-button {
+            min-height: 45px;
+            font-size: 1.1em;
+        }
+        
+        .form {
+            gap: 15px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .section-container {
+            padding: 30px 15px;
+            gap: 25px;
+        }
+        
+        .title {
+            font-size: 4em;
+            margin-bottom: 10px;
+        }
+        
+        .text {
+            font-size: 0.9em;
+        }
+        
+        .input {
+            min-height: 40px;
+            font-size: 1.05em;
+            text-indent: 15px;
+        }
+        
+        .primary-button, .seccond-button {
+            min-height: 40px;
+            font-size: 1.05em;
+        }
+        
+        .form {
+            gap: 12px;
+        }
+        
+        .divider {
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            font-size: 0.9em;
+        }
+    }
+    
+    @media (max-width: 320px) {
+        .section-container {
+            padding: 20px 10px;
+            gap: 20px;
+        }
+        
+        .title {
+            font-size: 1.8em;
+        }
+        
+        .input {
+            min-height: 38px;
+            font-size: 0.9em;
+        }
+        
+        .primary-button, .seccond-button {
+            min-height: 38px;
+            font-size: 0.95em;
+        }
+    }

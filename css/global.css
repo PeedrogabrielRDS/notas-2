@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+:root {
+    --white-bgc: #F8F9FA;
+    --green-bgc: #2D6A4F;
+    --button: #52B788;
+    --icon-button: #578872;
+    --white-text: #fff;
+    --black-text: #000;
+    --green-text: #2D6A4F;
+}
+
+body, main {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
